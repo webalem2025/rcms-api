@@ -71,10 +71,38 @@ const updateRumourById = (req, res) => {
     res.json({ message: "successfully updated", data: rumour });
   };
   
-
+  const createNewRumour = (req, res) => {
+    const newRumour = {
+      id: rummers.length + 1,
+      name: req.body.name,
+      sign: req.body.sign,
+      description: req.body.description,
+      region: req.body.region,
+      zone: req.body.zone,
+      kebele: req.body.kebele,
+      number_of_case: req.body.number_of_case,
+      number_of_death: req.body.number_of_death,
+      reporting_date: req.body.reporting_date,
+    };
+    rummers.push(newRumour);
+    res.json(newRumour);
+  };
+  
+  const deleteRumourById = (req, res) => {
+    const id = req.params.id;
+    const rumour = rummers.find((rum) => rum.id === parseInt(id));
+    if (!rumour) {
+      return res.status(404).json({ message: "roumour not found" });
+    }
+    rummers.filter((rum) => rum.id !== id);
+  
+    res.json({ message: "rummer is deleted successfully" });
+  };
   
   module.exports = {
     getAllRumours,
     getRumoursById,
     updateRumourById,
+    createNewRumour,
+    deleteRumourById,
   };
